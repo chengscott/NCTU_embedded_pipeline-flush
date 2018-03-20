@@ -1,6 +1,6 @@
 ARM_CC ?= arm-linux-gnueabihf-gcc
 ARM_CFLAGS = -g -Wall -Wextra -O0 -mfpu=neon
-EXEC = pipeline pipeline_flush
+EXEC = pipeline pipeline_flush pipeline_flush4 simple
 
 GIT_HOOKS := .git/hooks/applied
 .PHONY: all
@@ -16,6 +16,12 @@ pipeline: pipeline.c
 pipeline_flush: pipeline.c
 	$(ARM_CC) $(ARM_CFLAGS) -DFLUSH -o $@ $<
 
+pipeline_flush4: pipeline.c
+	$(ARM_CC) $(ARM_CFLAGS) -DFLUSH4 -o $@ $<
+
+simple: pipeline.c
+	$(ARM_CC) $(ARM_CFLAGS) -DSIMPLE -o $@ $<
+
 .PHONY: clean
 clean:
-	$(RM) $(EXEC)
+	$(RM) $(EXEC) input.txt
